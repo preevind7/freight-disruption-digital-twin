@@ -1,0 +1,664 @@
+{
+ "corridors": [
+  {
+   "id": "mumbai-bengaluru",
+   "name": "Mumbai → Bengaluru",
+   "highway": "NH48",
+   "origin": "Mumbai",
+   "destination": "Bengaluru",
+   "total_km": 973,
+   "alternate_route": {
+    "id": "nh48a",
+    "name": "NH48A",
+    "towns": [
+     "Peth Naka",
+     "Ichalkaranji",
+     "Kagal"
+    ],
+    "extraKm": 20,
+    "maxRisk": 0.18
+   }
+  },
+  {
+   "id": "chennai-bengaluru",
+   "name": "Chennai → Bengaluru",
+   "highway": "NH48",
+   "origin": "Chennai",
+   "destination": "Bengaluru",
+   "total_km": 340,
+   "alternate_route": null
+  }
+ ],
+ "segments": [
+  {
+   "id": "S01",
+   "name": "Mumbai – Panvel",
+   "corridor_id": "mumbai-bengaluru",
+   "km": 28,
+   "start": {
+    "lat": 19.076,
+    "lon": 72.878
+   },
+   "end": {
+    "lat": 18.989,
+    "lon": 73.117
+   },
+   "mid": {
+    "lat": 19.0325,
+    "lon": 72.9975
+   }
+  },
+  {
+   "id": "S02",
+   "name": "Panvel – Khalapur",
+   "corridor_id": "mumbai-bengaluru",
+   "km": 27,
+   "start": {
+    "lat": 18.989,
+    "lon": 73.117
+   },
+   "end": {
+    "lat": 18.829,
+    "lon": 73.274
+   },
+   "mid": {
+    "lat": 18.909,
+    "lon": 73.1955
+   }
+  },
+  {
+   "id": "S03",
+   "name": "Khalapur – Lonavala (Bhor Ghat)",
+   "corridor_id": "mumbai-bengaluru",
+   "km": 17,
+   "start": {
+    "lat": 18.829,
+    "lon": 73.274
+   },
+   "end": {
+    "lat": 18.754,
+    "lon": 73.407
+   },
+   "mid": {
+    "lat": 18.7915,
+    "lon": 73.3405
+   }
+  },
+  {
+   "id": "S04",
+   "name": "Lonavala – Talegaon",
+   "corridor_id": "mumbai-bengaluru",
+   "km": 31,
+   "start": {
+    "lat": 18.754,
+    "lon": 73.407
+   },
+   "end": {
+    "lat": 18.735,
+    "lon": 73.676
+   },
+   "mid": {
+    "lat": 18.7445,
+    "lon": 73.5415
+   }
+  },
+  {
+   "id": "S05",
+   "name": "Talegaon – Pune",
+   "corridor_id": "mumbai-bengaluru",
+   "km": 32,
+   "start": {
+    "lat": 18.735,
+    "lon": 73.676
+   },
+   "end": {
+    "lat": 18.52,
+    "lon": 73.856
+   },
+   "mid": {
+    "lat": 18.6275,
+    "lon": 73.766
+   }
+  },
+  {
+   "id": "S06",
+   "name": "Pune – Katraj",
+   "corridor_id": "mumbai-bengaluru",
+   "km": 8,
+   "start": {
+    "lat": 18.52,
+    "lon": 73.856
+   },
+   "end": {
+    "lat": 18.452,
+    "lon": 73.867
+   },
+   "mid": {
+    "lat": 18.486,
+    "lon": 73.8615
+   }
+  },
+  {
+   "id": "S07",
+   "name": "Katraj – Shirwal",
+   "corridor_id": "mumbai-bengaluru",
+   "km": 38,
+   "start": {
+    "lat": 18.452,
+    "lon": 73.867
+   },
+   "end": {
+    "lat": 18.142,
+    "lon": 73.977
+   },
+   "mid": {
+    "lat": 18.297,
+    "lon": 73.922
+   }
+  },
+  {
+   "id": "S08",
+   "name": "Shirwal – Satara (Khambatki Ghat)",
+   "corridor_id": "mumbai-bengaluru",
+   "km": 56,
+   "start": {
+    "lat": 18.142,
+    "lon": 73.977
+   },
+   "end": {
+    "lat": 17.681,
+    "lon": 74.018
+   },
+   "mid": {
+    "lat": 17.9115,
+    "lon": 73.9975
+   }
+  },
+  {
+   "id": "S09",
+   "name": "Satara – Umbraj",
+   "corridor_id": "mumbai-bengaluru",
+   "km": 35,
+   "start": {
+    "lat": 17.681,
+    "lon": 74.018
+   },
+   "end": {
+    "lat": 17.429,
+    "lon": 74.101
+   },
+   "mid": {
+    "lat": 17.555,
+    "lon": 74.0595
+   }
+  },
+  {
+   "id": "S10",
+   "name": "Umbraj – Karad",
+   "corridor_id": "mumbai-bengaluru",
+   "km": 17,
+   "start": {
+    "lat": 17.429,
+    "lon": 74.101
+   },
+   "end": {
+    "lat": 17.287,
+    "lon": 74.184
+   },
+   "mid": {
+    "lat": 17.358,
+    "lon": 74.1425
+   }
+  },
+  {
+   "id": "S11",
+   "name": "Karad – Peth Naka",
+   "corridor_id": "mumbai-bengaluru",
+   "km": 27,
+   "start": {
+    "lat": 17.287,
+    "lon": 74.184
+   },
+   "end": {
+    "lat": 17.108,
+    "lon": 74.274
+   },
+   "mid": {
+    "lat": 17.1975,
+    "lon": 74.229
+   }
+  },
+  {
+   "id": "S12",
+   "name": "Peth Naka – Kolhapur",
+   "corridor_id": "mumbai-bengaluru",
+   "km": 44,
+   "start": {
+    "lat": 17.108,
+    "lon": 74.274
+   },
+   "end": {
+    "lat": 16.705,
+    "lon": 74.243
+   },
+   "mid": {
+    "lat": 16.9065,
+    "lon": 74.2585
+   }
+  },
+  {
+   "id": "S13",
+   "name": "Kolhapur – Kagal",
+   "corridor_id": "mumbai-bengaluru",
+   "km": 21,
+   "start": {
+    "lat": 16.705,
+    "lon": 74.243
+   },
+   "end": {
+    "lat": 16.577,
+    "lon": 74.315
+   },
+   "mid": {
+    "lat": 16.641,
+    "lon": 74.279
+   }
+  },
+  {
+   "id": "S14",
+   "name": "Kagal – Nipani",
+   "corridor_id": "mumbai-bengaluru",
+   "km": 22,
+   "start": {
+    "lat": 16.577,
+    "lon": 74.315
+   },
+   "end": {
+    "lat": 16.399,
+    "lon": 74.383
+   },
+   "mid": {
+    "lat": 16.488,
+    "lon": 74.349
+   }
+  },
+  {
+   "id": "S15",
+   "name": "Nipani – Sankeshwar",
+   "corridor_id": "mumbai-bengaluru",
+   "km": 38,
+   "start": {
+    "lat": 16.399,
+    "lon": 74.383
+   },
+   "end": {
+    "lat": 16.255,
+    "lon": 74.482
+   },
+   "mid": {
+    "lat": 16.327,
+    "lon": 74.4325
+   }
+  },
+  {
+   "id": "S16",
+   "name": "Sankeshwar – Belagavi",
+   "corridor_id": "mumbai-bengaluru",
+   "km": 45,
+   "start": {
+    "lat": 16.255,
+    "lon": 74.482
+   },
+   "end": {
+    "lat": 15.849,
+    "lon": 74.497
+   },
+   "mid": {
+    "lat": 16.052,
+    "lon": 74.4895
+   }
+  },
+  {
+   "id": "S17",
+   "name": "Belagavi – Dharwad",
+   "corridor_id": "mumbai-bengaluru",
+   "km": 66,
+   "start": {
+    "lat": 15.849,
+    "lon": 74.497
+   },
+   "end": {
+    "lat": 15.458,
+    "lon": 75.007
+   },
+   "mid": {
+    "lat": 15.6535,
+    "lon": 74.752
+   }
+  },
+  {
+   "id": "S18",
+   "name": "Dharwad – Hubballi",
+   "corridor_id": "mumbai-bengaluru",
+   "km": 20,
+   "start": {
+    "lat": 15.458,
+    "lon": 75.007
+   },
+   "end": {
+    "lat": 15.364,
+    "lon": 75.124
+   },
+   "mid": {
+    "lat": 15.411,
+    "lon": 75.0655
+   }
+  },
+  {
+   "id": "S19",
+   "name": "Hubballi – Haveri",
+   "corridor_id": "mumbai-bengaluru",
+   "km": 62,
+   "start": {
+    "lat": 15.364,
+    "lon": 75.124
+   },
+   "end": {
+    "lat": 14.795,
+    "lon": 75.4
+   },
+   "mid": {
+    "lat": 15.0795,
+    "lon": 75.262
+   }
+  },
+  {
+   "id": "S20",
+   "name": "Haveri – Ranebennur",
+   "corridor_id": "mumbai-bengaluru",
+   "km": 40,
+   "start": {
+    "lat": 14.795,
+    "lon": 75.4
+   },
+   "end": {
+    "lat": 14.622,
+    "lon": 75.638
+   },
+   "mid": {
+    "lat": 14.7085,
+    "lon": 75.519
+   }
+  },
+  {
+   "id": "S21",
+   "name": "Ranebennur – Davanagere",
+   "corridor_id": "mumbai-bengaluru",
+   "km": 52,
+   "start": {
+    "lat": 14.622,
+    "lon": 75.638
+   },
+   "end": {
+    "lat": 14.464,
+    "lon": 75.922
+   },
+   "mid": {
+    "lat": 14.543,
+    "lon": 75.78
+   }
+  },
+  {
+   "id": "S22",
+   "name": "Davanagere – Chitradurga",
+   "corridor_id": "mumbai-bengaluru",
+   "km": 60,
+   "start": {
+    "lat": 14.464,
+    "lon": 75.922
+   },
+   "end": {
+    "lat": 14.225,
+    "lon": 76.398
+   },
+   "mid": {
+    "lat": 14.3445,
+    "lon": 76.16
+   }
+  },
+  {
+   "id": "S23",
+   "name": "Chitradurga – Sira",
+   "corridor_id": "mumbai-bengaluru",
+   "km": 75,
+   "start": {
+    "lat": 14.225,
+    "lon": 76.398
+   },
+   "end": {
+    "lat": 13.741,
+    "lon": 76.904
+   },
+   "mid": {
+    "lat": 13.983,
+    "lon": 76.651
+   }
+  },
+  {
+   "id": "S24",
+   "name": "Sira – Tumakuru",
+   "corridor_id": "mumbai-bengaluru",
+   "km": 52,
+   "start": {
+    "lat": 13.741,
+    "lon": 76.904
+   },
+   "end": {
+    "lat": 13.34,
+    "lon": 77.102
+   },
+   "mid": {
+    "lat": 13.5405,
+    "lon": 77.003
+   }
+  },
+  {
+   "id": "S25",
+   "name": "Tumakuru – Bengaluru",
+   "corridor_id": "mumbai-bengaluru",
+   "km": 60,
+   "start": {
+    "lat": 13.34,
+    "lon": 77.102
+   },
+   "end": {
+    "lat": 12.972,
+    "lon": 77.594
+   },
+   "mid": {
+    "lat": 13.156,
+    "lon": 77.348
+   }
+  },
+  {
+   "id": "C01",
+   "name": "Chennai – Poonamallee",
+   "corridor_id": "chennai-bengaluru",
+   "km": 22,
+   "start": {
+    "lat": 13.083,
+    "lon": 80.27
+   },
+   "end": {
+    "lat": 13.048,
+    "lon": 80.095
+   },
+   "mid": {
+    "lat": 13.0655,
+    "lon": 80.1825
+   }
+  },
+  {
+   "id": "C02",
+   "name": "Poonamallee – Sriperumbudur",
+   "corridor_id": "chennai-bengaluru",
+   "km": 20,
+   "start": {
+    "lat": 13.048,
+    "lon": 80.095
+   },
+   "end": {
+    "lat": 12.968,
+    "lon": 79.942
+   },
+   "mid": {
+    "lat": 13.008,
+    "lon": 80.0185
+   }
+  },
+  {
+   "id": "C03",
+   "name": "Sriperumbudur – Walajapet",
+   "corridor_id": "chennai-bengaluru",
+   "km": 63,
+   "start": {
+    "lat": 12.968,
+    "lon": 79.942
+   },
+   "end": {
+    "lat": 12.925,
+    "lon": 79.367
+   },
+   "mid": {
+    "lat": 12.9465,
+    "lon": 79.6545
+   }
+  },
+  {
+   "id": "C04",
+   "name": "Walajapet – Vellore",
+   "corridor_id": "chennai-bengaluru",
+   "km": 27,
+   "start": {
+    "lat": 12.925,
+    "lon": 79.367
+   },
+   "end": {
+    "lat": 12.916,
+    "lon": 79.133
+   },
+   "mid": {
+    "lat": 12.9205,
+    "lon": 79.25
+   }
+  },
+  {
+   "id": "C05",
+   "name": "Vellore – Ambur",
+   "corridor_id": "chennai-bengaluru",
+   "km": 50,
+   "start": {
+    "lat": 12.916,
+    "lon": 79.133
+   },
+   "end": {
+    "lat": 12.791,
+    "lon": 78.716
+   },
+   "mid": {
+    "lat": 12.8535,
+    "lon": 78.9245
+   }
+  },
+  {
+   "id": "C06",
+   "name": "Ambur – Vaniyambadi",
+   "corridor_id": "chennai-bengaluru",
+   "km": 18,
+   "start": {
+    "lat": 12.791,
+    "lon": 78.716
+   },
+   "end": {
+    "lat": 12.681,
+    "lon": 78.621
+   },
+   "mid": {
+    "lat": 12.736,
+    "lon": 78.6685
+   }
+  },
+  {
+   "id": "C07",
+   "name": "Vaniyambadi – Krishnagiri",
+   "corridor_id": "chennai-bengaluru",
+   "km": 52,
+   "start": {
+    "lat": 12.681,
+    "lon": 78.621
+   },
+   "end": {
+    "lat": 12.519,
+    "lon": 78.214
+   },
+   "mid": {
+    "lat": 12.6,
+    "lon": 78.4175
+   }
+  },
+  {
+   "id": "C08",
+   "name": "Krishnagiri – Hosur",
+   "corridor_id": "chennai-bengaluru",
+   "km": 50,
+   "start": {
+    "lat": 12.519,
+    "lon": 78.214
+   },
+   "end": {
+    "lat": 12.74,
+    "lon": 77.825
+   },
+   "mid": {
+    "lat": 12.6295,
+    "lon": 78.0195
+   }
+  },
+  {
+   "id": "C09",
+   "name": "Hosur – Electronic City",
+   "corridor_id": "chennai-bengaluru",
+   "km": 20,
+   "start": {
+    "lat": 12.74,
+    "lon": 77.825
+   },
+   "end": {
+    "lat": 12.839,
+    "lon": 77.677
+   },
+   "mid": {
+    "lat": 12.7895,
+    "lon": 77.751
+   }
+  },
+  {
+   "id": "C10",
+   "name": "Electronic City – Bengaluru",
+   "corridor_id": "chennai-bengaluru",
+   "km": 18,
+   "start": {
+    "lat": 12.839,
+    "lon": 77.677
+   },
+   "end": {
+    "lat": 12.972,
+    "lon": 77.594
+   },
+   "mid": {
+    "lat": 12.9055,
+    "lon": 77.6355
+   }
+  }
+ ]
+}

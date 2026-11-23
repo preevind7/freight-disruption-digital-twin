@@ -1,0 +1,342 @@
+{
+  "model": "rainfall",
+  "task": "Next-day IMD rainfall category; heavy-rain probability as flood-trigger risk",
+  "dataset": [
+    "corridor_rainfall_open_meteo.csv",
+    "corridor_rain_forecast_open_meteo.csv"
+  ],
+  "dataset_description": "`corridor_rainfall_open_meteo.csv`: real daily rainfall at each of the 35 corridor segments, downloaded from the Open-Meteo Historical Weather API (ERA5 reanalysis). Weather data by Open-Meteo.com (CC BY 4.0). Plus `corridor_rain_forecast_open_meteo.csv`: the rain forecast for each day made the day before (Open-Meteo Previous Runs API).",
+  "locations": 35,
+  "split": {
+    "train": {
+      "rows": 63700,
+      "from": "2020-01-08",
+      "to": "2024-12-31"
+    },
+    "validation": {
+      "rows": 12775,
+      "from": "2025-01-01",
+      "to": "2025-12-31"
+    },
+    "test": {
+      "rows": 11060,
+      "from": "2026-01-01",
+      "to": "2026-11-12"
+    }
+  },
+  "uses_forecast": true,
+  "forecast_rows": {
+    "train": 12145,
+    "validation": 12775,
+    "test": 11060
+  },
+  "selection_metric": "validation log loss (lower is better)",
+  "validation_comparison": {
+    "LogisticRegression \u00b7 past rain": {
+      "log_loss": 0.5116,
+      "macro_f1": 0.4241,
+      "accuracy": 0.7923,
+      "balanced_accuracy": 0.4093,
+      "heavy_pr_auc": 0.1423,
+      "heavy_roc_auc": 0.9809
+    },
+    "RandomForest \u00b7 past rain": {
+      "log_loss": 0.4857,
+      "macro_f1": 0.4361,
+      "accuracy": 0.8011,
+      "balanced_accuracy": 0.4222,
+      "heavy_pr_auc": 0.13,
+      "heavy_roc_auc": 0.9516
+    },
+    "HistGradientBoosting \u00b7 past rain": {
+      "log_loss": 0.5107,
+      "macro_f1": 0.4367,
+      "accuracy": 0.793,
+      "balanced_accuracy": 0.423,
+      "heavy_pr_auc": 0.0382,
+      "heavy_roc_auc": 0.8945
+    },
+    "LogisticRegression \u00b7 past rain + forecast": {
+      "log_loss": 0.4643,
+      "macro_f1": 0.534,
+      "accuracy": 0.8182,
+      "balanced_accuracy": 0.5063,
+      "heavy_pr_auc": 0.1411,
+      "heavy_roc_auc": 0.9619
+    },
+    "RandomForest \u00b7 past rain + forecast": {
+      "log_loss": 0.4235,
+      "macro_f1": 0.4814,
+      "accuracy": 0.8208,
+      "balanced_accuracy": 0.467,
+      "heavy_pr_auc": 0.1979,
+      "heavy_roc_auc": 0.9795
+    },
+    "HistGradientBoosting \u00b7 past rain + forecast": {
+      "log_loss": 0.4468,
+      "macro_f1": 0.5117,
+      "accuracy": 0.8094,
+      "balanced_accuracy": 0.5019,
+      "heavy_pr_auc": 0.0624,
+      "heavy_roc_auc": 0.9224
+    }
+  },
+  "selected_model": "RandomForest \u00b7 past rain + forecast",
+  "heavy_alert_threshold": 0.1715,
+  "heavy_alert_rule": "model_or_persistence",
+  "heavy_alert_rule_text": "heavy-rain probability at or above the alert threshold, or heavy rain on the previous day",
+  "alert_rule_thresholds": {
+    "model": 0.091,
+    "persistence": null,
+    "model_or_persistence": 0.1715,
+    "forecast": null
+  },
+  "validation_alert_rules": {
+    "model": {
+      "precision": 0.1867,
+      "recall": 0.3333,
+      "f1": 0.2393,
+      "alerts_raised": 75,
+      "heavy_days": 42
+    },
+    "persistence": {
+      "precision": 0.2619,
+      "recall": 0.2619,
+      "f1": 0.2619,
+      "alerts_raised": 42,
+      "heavy_days": 42
+    },
+    "model_or_persistence": {
+      "precision": 0.2766,
+      "recall": 0.3095,
+      "f1": 0.2921,
+      "alerts_raised": 47,
+      "heavy_days": 42
+    },
+    "forecast": {
+      "precision": 0.1944,
+      "recall": 0.1667,
+      "f1": 0.1795,
+      "alerts_raised": 36,
+      "heavy_days": 42
+    }
+  },
+  "test_alert_rules": {
+    "model": {
+      "precision": 0.2459,
+      "recall": 0.6522,
+      "f1": 0.3571,
+      "alerts_raised": 61,
+      "heavy_days": 23
+    },
+    "persistence": {
+      "precision": 0.3913,
+      "recall": 0.3913,
+      "f1": 0.3913,
+      "alerts_raised": 23,
+      "heavy_days": 23
+    },
+    "model_or_persistence": {
+      "precision": 0.3243,
+      "recall": 0.5217,
+      "f1": 0.4,
+      "alerts_raised": 37,
+      "heavy_days": 23
+    },
+    "forecast": {
+      "precision": 0.5909,
+      "recall": 0.5652,
+      "f1": 0.5778,
+      "alerts_raised": 22,
+      "heavy_days": 23
+    }
+  },
+  "test_metrics": {
+    "log_loss": 0.391,
+    "macro_f1": 0.5292,
+    "accuracy": 0.8217,
+    "balanced_accuracy": 0.5152,
+    "heavy_pr_auc": 0.5256,
+    "heavy_roc_auc": 0.9955
+  },
+  "test_heavy_alert": {
+    "precision": 0.3243,
+    "recall": 0.5217,
+    "f1": 0.4,
+    "alerts_raised": 37,
+    "heavy_days": 23
+  },
+  "test_baselines": {
+    "climatology (location x month frequencies)": {
+      "log_loss": 0.5052,
+      "macro_f1": 0.3955,
+      "accuracy": 0.7805,
+      "balanced_accuracy": 0.3797,
+      "heavy_pr_auc": 0.1497,
+      "heavy_roc_auc": 0.9536
+    },
+    "persistence (tomorrow = today)": {
+      "macro_f1": 0.5605,
+      "accuracy": 0.8041,
+      "balanced_accuracy": 0.5605
+    },
+    "forecast alone (category of the forecast made the day before)": {
+      "macro_f1": 0.6512,
+      "accuracy": 0.8325,
+      "balanced_accuracy": 0.6585
+    },
+    "RandomForest \u00b7 past rain (fallback, same days)": {
+      "log_loss": 0.4198,
+      "macro_f1": 0.443,
+      "accuracy": 0.8192,
+      "balanced_accuracy": 0.4166,
+      "heavy_pr_auc": 0.402,
+      "heavy_roc_auc": 0.9929
+    }
+  },
+  "test_baseline_persistence_heavy_alert": {
+    "precision": 0.3913,
+    "recall": 0.3913,
+    "f1": 0.3913,
+    "alerts_raised": 23,
+    "heavy_days": 23
+  },
+  "fallback": {
+    "model": "RandomForest \u00b7 past rain",
+    "alert_rule": "persistence",
+    "alert_threshold": 0.0589,
+    "alert_rule_thresholds": {
+      "model": 0.0589,
+      "persistence": null
+    },
+    "validation_alert_rules": {
+      "model": {
+        "precision": 0.1765,
+        "recall": 0.2857,
+        "f1": 0.2182,
+        "alerts_raised": 68,
+        "heavy_days": 42
+      },
+      "persistence": {
+        "precision": 0.2619,
+        "recall": 0.2619,
+        "f1": 0.2619,
+        "alerts_raised": 42,
+        "heavy_days": 42
+      }
+    },
+    "test_metrics_same_days": {
+      "log_loss": 0.4198,
+      "macro_f1": 0.443,
+      "accuracy": 0.8192,
+      "balanced_accuracy": 0.4166,
+      "heavy_pr_auc": 0.402,
+      "heavy_roc_auc": 0.9929
+    },
+    "test_metrics_all_days": {
+      "log_loss": 0.4198,
+      "macro_f1": 0.443,
+      "accuracy": 0.8192,
+      "balanced_accuracy": 0.4166,
+      "heavy_pr_auc": 0.402,
+      "heavy_roc_auc": 0.9929
+    },
+    "test_alert_rules_all_days": {
+      "model": {
+        "precision": 0.2029,
+        "recall": 0.6087,
+        "f1": 0.3043,
+        "alerts_raised": 69,
+        "heavy_days": 23
+      },
+      "persistence": {
+        "precision": 0.3913,
+        "recall": 0.3913,
+        "f1": 0.3913,
+        "alerts_raised": 23,
+        "heavy_days": 23
+      }
+    }
+  },
+  "test_confusion_matrix": {
+    "labels": [
+      "No / very light rain (< 2.5 mm)",
+      "Light rain (2.5 - 15.5 mm)",
+      "Moderate rain (15.6 - 64.4 mm)",
+      "Heavy rain or above (>= 64.5 mm)"
+    ],
+    "matrix": [
+      [
+        7174,
+        1169,
+        0,
+        0
+      ],
+      [
+        519,
+        1776,
+        59,
+        0
+      ],
+      [
+        20,
+        183,
+        137,
+        0
+      ],
+      [
+        0,
+        1,
+        21,
+        1
+      ]
+    ]
+  },
+  "test_classification_report": {
+    "No / very light rain (< 2.5 mm)": {
+      "precision": 0.9301,
+      "recall": 0.8599,
+      "f1-score": 0.8936,
+      "support": 8343.0
+    },
+    "Light rain (2.5 - 15.5 mm)": {
+      "precision": 0.5676,
+      "recall": 0.7545,
+      "f1-score": 0.6478,
+      "support": 2354.0
+    },
+    "Moderate rain (15.6 - 64.4 mm)": {
+      "precision": 0.6313,
+      "recall": 0.4029,
+      "f1-score": 0.4919,
+      "support": 340.0
+    },
+    "Heavy rain or above (>= 64.5 mm)": {
+      "precision": 1.0,
+      "recall": 0.0435,
+      "f1-score": 0.0833,
+      "support": 23.0
+    },
+    "accuracy": 0.8217,
+    "macro avg": {
+      "precision": 0.7823,
+      "recall": 0.5152,
+      "f1-score": 0.5292,
+      "support": 11060.0
+    },
+    "weighted avg": {
+      "precision": 0.8439,
+      "recall": 0.8217,
+      "f1-score": 0.8273,
+      "support": 11060.0
+    }
+  },
+  "limitations": [
+    "No flood labels exist; heavy rain (>= 64.5 mm/day, IMD) is used as a flood trigger, not a flood observation.",
+    "Rainfall is ERA5 / ERA5-Land reanalysis from Open-Meteo (a weather model fitted to observations, about 10-25 km grid), not rain-gauge readings. It smooths very local cloudbursts, so it records fewer heavy-rain days than a gauge would.",
+    "Daily totals: the model forecasts the whole day, not individual hours.",
+    "Heavy-rain days are rare, so alerts have low precision. The alert rule is chosen on the validation year; see the alert tables above.",
+    "Weather forecasts are archived only from January 2024, so the 'past rain + forecast' models learn from one year (2024) and are tested on the current year only; their comparison with past-rain-only models uses exactly the same test days.",
+    "When no forecast made the day before exists for a date (e.g. dates far in the past or future), the app uses the past-rain-only fallback model, and says so."
+  ]
+}

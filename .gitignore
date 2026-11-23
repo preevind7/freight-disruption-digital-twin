@@ -1,0 +1,24 @@
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Secrets and accounts - never upload
+.env
+**/.env
+users.json
+**/users.json
+*.key
+*.pem
+
+# Large / re-creatable files (re-create with: python -m training.train_all)
+backend/trained_models/*.joblib
+
+# Download caches, live logs, unused data
+backend/datasets/open_meteo_cache/
+backend/datasets/open_meteo_forecast_cache/
+backend/datasets/traffic_observations.csv
+backend/datasets/unused/
+*.tmp

@@ -1,0 +1,171 @@
+{
+  "model": "traffic",
+  "task": "Traffic congestion level (traffic_density proxy) with festival / significant-date features",
+  "dataset": [
+    "indian_roads_dataset.csv",
+    "significant_dates.csv"
+  ],
+  "split": {
+    "train": {
+      "rows": 12205,
+      "from": "2022-01-01",
+      "to": "2023-12-31"
+    },
+    "validation": {
+      "rows": 2981,
+      "from": "2024-01-01",
+      "to": "2024-06-30"
+    },
+    "test": {
+      "rows": 4814,
+      "from": "2024-07-01",
+      "to": "2025-04-15"
+    }
+  },
+  "selection_metric": "validation macro-F1 (higher is better)",
+  "validation_comparison": {
+    "LogisticRegression": {
+      "macro_f1": 0.4181,
+      "accuracy": 0.4747,
+      "balanced_accuracy": 0.4491,
+      "log_loss": 1.0097
+    },
+    "RandomForest": {
+      "macro_f1": 0.4448,
+      "accuracy": 0.4857,
+      "balanced_accuracy": 0.4638,
+      "log_loss": 0.9889
+    },
+    "HistGradientBoosting": {
+      "macro_f1": 0.4654,
+      "accuracy": 0.4901,
+      "balanced_accuracy": 0.4726,
+      "log_loss": 0.9849
+    }
+  },
+  "selected_model": "HistGradientBoosting",
+  "test_metrics": {
+    "macro_f1": 0.474,
+    "accuracy": 0.4965,
+    "balanced_accuracy": 0.4822,
+    "log_loss": 0.9823
+  },
+  "test_baselines": {
+    "majority class ('low')": {
+      "macro_f1": 0.1741,
+      "accuracy": 0.3533,
+      "balanced_accuracy": 0.3333
+    },
+    "peak-hour rule (peak=high, else low)": {
+      "macro_f1": 0.3714,
+      "accuracy": 0.4861,
+      "balanced_accuracy": 0.458
+    }
+  },
+  "test_confusion_matrix": {
+    "labels": [
+      "low",
+      "medium",
+      "high"
+    ],
+    "matrix": [
+      [
+        1006,
+        324,
+        371
+      ],
+      [
+        394,
+        353,
+        659
+      ],
+      [
+        380,
+        296,
+        1031
+      ]
+    ]
+  },
+  "test_classification_report": {
+    "low": {
+      "precision": 0.5652,
+      "recall": 0.5914,
+      "f1-score": 0.578,
+      "support": 1701.0
+    },
+    "medium": {
+      "precision": 0.3628,
+      "recall": 0.2511,
+      "f1-score": 0.2968,
+      "support": 1406.0
+    },
+    "high": {
+      "precision": 0.5002,
+      "recall": 0.604,
+      "f1-score": 0.5472,
+      "support": 1707.0
+    },
+    "accuracy": 0.4965,
+    "macro avg": {
+      "precision": 0.4761,
+      "recall": 0.4822,
+      "f1-score": 0.474,
+      "support": 4814.0
+    },
+    "weighted avg": {
+      "precision": 0.483,
+      "recall": 0.4965,
+      "f1-score": 0.485,
+      "support": 4814.0
+    }
+  },
+  "share_high_by_festival_event": {
+    "Diwali": {
+      "mean": 0.4,
+      "count": 40
+    },
+    "Eid": {
+      "mean": 0.5,
+      "count": 48
+    },
+    "Holi": {
+      "mean": 0.259,
+      "count": 54
+    },
+    "New Year": {
+      "mean": 0.341,
+      "count": 41
+    },
+    "None": {
+      "mean": 0.351,
+      "count": 19531
+    },
+    "Other event": {
+      "mean": 0.353,
+      "count": 286
+    }
+  },
+  "rows_on_festival_or_event": 469,
+  "permutation_importance_macro_f1": {
+    "is_peak_hour": 0.0767,
+    "hour_cos": 0.0717,
+    "hour_sin": 0.0306,
+    "day_of_week": 0.0099,
+    "city": 0.0085,
+    "month_sin": 0.0061,
+    "month_cos": 0.0049,
+    "festival_event": 0.0046,
+    "road_type": 0.0026,
+    "is_weekend": 0.0023,
+    "traffic_signal": 0.0019,
+    "weather": 0.0015,
+    "is_festival_or_event": 0.0011,
+    "lanes": -0.0006
+  },
+  "limitations": [
+    "No uploaded dataset measures traffic congestion; traffic_density from accident records is used as a proxy.",
+    "traffic_density is observed only where and when accidents happened, so it is a biased sample of traffic.",
+    "Only 469 of 20000 rows fall on a festival or significant date, so festival effects are estimated from little data.",
+    "pandals.csv and reviews.csv contain no traffic, crowd-count or date fields and are not used."
+  ]
+}

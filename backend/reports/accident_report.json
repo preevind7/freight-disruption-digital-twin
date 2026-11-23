@@ -1,0 +1,78 @@
+{
+  "model": "accident",
+  "task": "Pre-accident road risk score (0-1) = risk_score minus the post-crash fatal adjustment",
+  "dataset": "indian_roads_dataset.csv",
+  "split": {
+    "train": {
+      "rows": 12205,
+      "from": "2022-01-01",
+      "to": "2023-12-31"
+    },
+    "validation": {
+      "rows": 2981,
+      "from": "2024-01-01",
+      "to": "2024-06-30"
+    },
+    "test": {
+      "rows": 4814,
+      "from": "2024-07-01",
+      "to": "2025-04-15"
+    }
+  },
+  "selection_metric": "validation MAE (lower is better)",
+  "validation_comparison": {
+    "LinearRegression (Ridge)": {
+      "mae": 0.0,
+      "rmse": 0.0018,
+      "r2": 0.9999,
+      "risk_band_accuracy": 1.0
+    },
+    "RandomForest": {
+      "mae": 0.0005,
+      "rmse": 0.0054,
+      "r2": 0.9993,
+      "risk_band_accuracy": 0.9993
+    },
+    "HistGradientBoosting": {
+      "mae": 0.0005,
+      "rmse": 0.0019,
+      "r2": 0.9999,
+      "risk_band_accuracy": 0.9919
+    }
+  },
+  "selected_model": "LinearRegression (Ridge)",
+  "test_metrics": {
+    "mae": 0.0,
+    "rmse": 0.0,
+    "r2": 1.0,
+    "risk_band_accuracy": 1.0
+  },
+  "test_baseline_mean": {
+    "mae": 0.17,
+    "rmse": 0.2083,
+    "r2": -0.0007,
+    "risk_band_accuracy": 0.4329
+  },
+  "prediction_error_p90": 0.0,
+  "permutation_importance_mae": {
+    "visibility": 0.1114,
+    "traffic_density": 0.0926,
+    "is_peak_hour": 0.0576,
+    "weather": 0.0552,
+    "festival": 0.0008,
+    "road_type": 0.0,
+    "hour_cos": 0.0,
+    "temperature": 0.0,
+    "city": 0.0,
+    "is_weekend": 0.0,
+    "lanes": -0.0,
+    "traffic_signal": -0.0,
+    "day_of_week": -0.0,
+    "hour_sin": -0.0
+  },
+  "limitations": [
+    "Every record is an accident, so the model scores risky conditions; it does not estimate the probability that an accident happens.",
+    "The dataset's risk_score is rule-based; the model learns that rule (very high R2 is expected, not a sign of real-world accuracy).",
+    "accident_severity could not be predicted from the inputs (no signal), so severity is not offered."
+  ]
+}
