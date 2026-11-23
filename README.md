@@ -1,49 +1,66 @@
-# Freight Disruption Digital Twin
+# GenAI Digital Twin for Freight Disruption Prediction & Mitigation
 
-A digital twin for freight corridors in India (Mumbai → Bengaluru and Chennai → Bengaluru) that forecasts
-**disruption risk per road segment and per hour** from three machine-learning models, and explains it
-through a web app and an AI assistant.
+Forecasting highway disruption in India for every vehicle on the road: trucks, buses, cars/taxis and vans.
 
-| Folder | What it is |
-|---|---|
-| [`backend/`](backend/) | FastAPI + scikit-learn: data download, model training, evaluation reports, prediction API, login, AI assistant |
-| [`frontend/`](frontend/) | The web app (vanilla JavaScript): dashboard, corridor risk map, segment details, scenario simulator, GenAI assistant |
+This repository contains a clickable, browser-only prototype. It is designed to work from a local `file://` URL and on GitHub Pages without a build step.
 
-## What the models do
-- **Rainfall / heavy-rain (flood trigger) risk** – next-day rainfall category for each of the 35 corridor segments,
-  trained on **real daily rainfall at each segment** (Open-Meteo / ERA5, 2020 onward) plus the **rain forecast made the
-  day before** (Open-Meteo Previous Runs API). The heavy-rain alert rule is chosen on a validation year, never on the test year.
-- **Accident risk** – road risk score from road, weather, visibility, traffic and time of day.
-- **Festival / event traffic** – congestion level by hour, using a festival and event calendar; for **today** the current
-  hour uses **live traffic speeds from TomTom**.
+## Screenshots
 
-The combined segment risk is `1 − (1 − 0.7·rain)(1 − 0.5·accident)(1 − 0.3·congestion)`; these weights are documented
-assumptions because no disruption records exist to learn them from.
+_Add prototype screenshots here._
 
-**Honest evaluation:** every model is trained on older data, tuned on a validation period and scored once on a later
-test period it never saw, and compared with simple baselines. Results and limitations are in
-[`backend/reports/`](backend/reports/) and on the app's *Model & Validation* page.
+## Live demo
 
-## Run it locally
-Requirements: Python 3.11+ and (optional) free API keys.
+Live demo: `https://<user>.github.io/<repo>/`
 
-```powershell
-cd backend
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1          # macOS/Linux: source .venv/bin/activate
-pip install -r requirements.txt
-copy .env.example .env                 # then add your own keys (AI assistant, TomTom) - optional
-python -m training.download_rainfall   # real rainfall per segment (free, no key; about 1 hour, resumable)
-python -m training.download_forecasts  # rain forecasts made the day before (free, no key)
-python -m training.train_all           # trains the 3 models and writes backend/reports/
-uvicorn app.main:app                   # then open http://127.0.0.1:8000 and click "Create account"
+## Run locally
+
+Open `index.html` directly in a modern browser. No server, dependency installation, password, or API key is needed.
+
+## Scenario simulation
+
+The Scenario Simulator runs deterministic Monte Carlo comparisons in the browser, with 100–5,000 runs, optional alternate-route comparisons, and current-forecast, heavy-rain, closure, and congestion scenarios. Results include route delay percentiles and an on-time estimate based on each route's travel-time buffer. Simulations and saved scenarios are stored in this browser's local storage.
+
+## Assistant demo
+
+The GenAI Assistant screen is a local, template-based demonstration grounded in the prototype's synthetic segment, trip, route, departure, and model facts. It does not connect to an AI service or provide live operational guidance; each answer links to its source screen.
+
+## Fleet and trip records
+
+Vehicles & Trips filters the selected corridor's synthetic fleet by vehicle type and trip status, with searchable, sortable trip records. Trip details show the assigned vehicle, current segment forecast, seeded timeline, and any reroute action stored in this browser.
+
+## Departure planning
+
+The Departure Planner compares 24 departure hours for a selected corridor segment and vehicle using the local seeded simulator. Its recommended window is the lowest estimated median delay in that comparison; results are synthetic planning estimates, not live traffic guidance. Hourly results link to the simulator with the selected departure time prefilled.
+
+## Risk hotspots
+
+Risk Hotspots summarizes illustrative 90-day disruption counts and average delays by corridor segment, alongside the separate synthetic hourly forecast. Select a segment to inspect its risk curve; search or filter the history table by cause and open segment details for more context.
+
+## Deploy to GitHub Pages
+
+1. Push the repository to GitHub.
+2. In repository settings, open **Pages** and select the branch and folder containing `index.html`.
+3. Open the published URL. All app assets use relative paths, so the prototype works below a repository sub-path.
+
+## Folder map
+
+```text
+index.html
+css/       Design tokens, base styles, layout, components, and page styles
+js/        Browser-only app and router
+           data.js holds synthetic data; charts.js and map.js draw SVG visuals;
+           simulator.js runs deterministic Monte Carlo scenarios; ui.js provides
+           reusable dialogs, tables, tabs, and notifications; pages/ contains
+           one module per screen
 ```
-The backend serves the `frontend/` folder at `/`, so one address runs the whole app.
-Details: [`backend/README.md`](backend/README.md). Tests: `python -m pytest -q`.
 
-## Data sources
-- Weather data by [Open-Meteo.com](https://open-meteo.com/) (CC BY 4.0): Historical Weather API (ERA5) and Previous Runs API.
-- Live traffic: [TomTom Traffic Flow API](https://developer.tomtom.com/) (own key required).
-- Road accidents, traffic and festival/event datasets: uploaded project datasets in `backend/datasets/` (see the reports for their limitations).
+Prototype with synthetic data – no backend, no API keys.
 
-Keys are never stored in this repository (`.env` is excluded); each user adds their own.
+
+## Live demo (GitHub Pages)
+
+**https://preevind7.github.io/freight-disruption-digital-twin/**
+
+On GitHub Pages this frontend switches to **demo mode** on its own. It runs in the browser with no backend, using a saved sample day (19 Aug 2025) from the 3 ML models. That sample is stored in `js/demo-data.js` and is answered by `js/demo-backend.js`. You can sign in with any username and password. Live predictions and the real AI assistant need the full app.
+
+Opened from the backend (`http://127.0.0.1:8000` or the public tunnel link), the same code is the full live app, and demo mode stays off. To try demo mode locally, add `?demo` to the address.

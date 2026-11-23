@@ -1,0 +1,45 @@
+# Publishes the frontend/ folder as a website on GitHub Pages.
+# On github.io the app runs in demo mode (saved sample day, no backend needed).
+# One-time setup: Settings -> Pages -> Build and deployment -> Source: "GitHub Actions".
+name: Frontend demo (GitHub Pages)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "frontend/**"
+      - ".github/workflows/pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Publish frontend
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Get the code
+        uses: actions/checkout@v6
+
+      - name: Set up GitHub Pages
+        uses: actions/configure-pages@v6
+
+      - name: Upload the frontend folder
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: frontend
+
+      - name: Publish to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
