@@ -55,3 +55,12 @@ js/        Browser-only app and router
 ```
 
 Prototype with synthetic data – no backend, no API keys.
+
+
+## Live demo (GitHub Pages)
+
+**https://preevind7.github.io/freight-disruption-digital-twin/**
+
+On GitHub Pages this frontend switches to **demo mode** on its own. It runs in the browser with no backend, using a saved sample day (19 Aug 2025) from the 3 ML models. That sample is stored in `js/demo-data.js` and is answered by `js/demo-backend.js`. You can sign in with any username and password. Live predictions and the real AI assistant need the full app.
+
+Opened from the backend (`http://127.0.0.1:8000` or the public tunnel link), the same code is the full live app, and demo mode stays off. To try demo mode locally, add `?demo` to the address.

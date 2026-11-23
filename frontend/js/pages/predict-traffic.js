@@ -15,7 +15,7 @@
     const o = meta.input_options;
     const festivalLabels = { [AUTO]: "Auto-detect from event calendar" };
     root.innerHTML =
-      '<header class="page-heading"><div><p class="small muted">ML PREDICTIONS · MODEL 3 · <span class="simulated">Live backend</span></p><h1>' + TITLE + '</h1><p>Predict the traffic congestion level for a city, date and hour, with festivals detected from the significant-dates calendar.</p></div><div class="page-actions"><a class="button" href="#/model">Model & Validation</a></div></header>' +
+      '<header class="page-heading"><div><p class="small muted">ML PREDICTIONS · MODEL 3 · <span class="simulated">' + (FDT.demo ? "Saved sample · demo" : "Live backend") + '</span></p><h1>' + TITLE + '</h1><p>Predict the traffic congestion level for a city, date and hour, with festivals detected from the significant-dates calendar.</p></div><div class="page-actions"><a class="button" href="#/model">Model & Validation</a></div></header>' +
       '<div class="ml-layout"><form id="traffic-form" class="card ml-form" novalidate>' +
       '<div class="card__header"><div><h2>When and where</h2><p>Trained on ' + ml.esc([].concat(meta.dataset).join(" + ")) + '.</p></div></div>' +
       '<div class="field-row"><div class="field"><label for="tr-city">City</label><select id="tr-city">' + ml.options(o.city, "Bangalore") + '</select></div>' +

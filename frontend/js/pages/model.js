@@ -62,7 +62,7 @@
     FDT.api.models(true).then(function (models) {
       if (!root.isConnected) return;
       root.innerHTML =
-        '<header class="page-heading"><div><p class="small muted">FLEET & PLANNING · <span class="simulated">Live backend</span></p><h1>' + TITLE + '</h1><p>Evaluation of the three ML models on a held-out, later time period. Every number below is read from the training reports on the backend.</p></div><div class="page-actions"><span class="pill pill--neutral">API: ' + ml.esc(FDT.api.baseUrl()) + "</span></div></header>" +
+        '<header class="page-heading"><div><p class="small muted">FLEET & PLANNING · <span class="simulated">' + (FDT.demo ? "Saved sample · demo" : "Live backend") + '</span></p><h1>' + TITLE + '</h1><p>Evaluation of the three ML models on a held-out, later time period. Every number below is read from the training reports on the backend.</p></div><div class="page-actions"><span class="pill pill--neutral">' + (FDT.demo ? "Demo: saved from the backend" : "API: " + ml.esc(FDT.api.baseUrl())) + "</span></div></header>" +
         '<div class="departure-disclaimer" role="note"><strong>How to read this</strong><span>Each model is trained on earlier dates, tuned on a validation period and scored once on the most recent dates. ↑ means higher is better, ↓ lower is better. Baselines are simple rules the model should beat.</span></div>' +
         MODELS.map(function (spec) { return modelCard(spec, models[spec.key]); }).join("");
     }).catch(function (error) {

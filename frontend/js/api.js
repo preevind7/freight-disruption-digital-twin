@@ -25,6 +25,8 @@
 
   async function request(path, options) {
     options = options || {};
+    // Demo mode (GitHub Pages only): answer from the saved sample in the browser, no server needed.
+    if (FDT.demo && FDT.demo.enabled) return FDT.demo.handle(path, options);
     const controller = new AbortController();
     const timer = window.setTimeout(function () { controller.abort(); }, options.timeoutMs || TIMEOUT_MS);
     let response;
@@ -149,12 +151,12 @@
     },
     // Full-page state when model metadata cannot be loaded.
     unavailable: function (root, title, error, retry) {
-      root.innerHTML = '<header class="page-heading"><div><p class="small muted">ML PREDICTIONS · Live backend</p><h1>' + esc(title) + "</h1></div></header>" + FDT.ml.errorBox(error) +
+      root.innerHTML = '<header class="page-heading"><div><p class="small muted">ML PREDICTIONS · ' + (FDT.demo ? "Demo" : "Live backend") + '</p><h1>' + esc(title) + "</h1></div></header>" + FDT.ml.errorBox(error) +
         '<p><button type="button" class="button button--primary" data-ml-retry>Retry</button></p>';
       root.querySelector("[data-ml-retry]").addEventListener("click", retry);
     },
     skeleton: function (root, title) {
-      root.innerHTML = '<header class="page-heading"><div><p class="small muted">ML PREDICTIONS · Live backend</p><h1>' + esc(title) + '</h1><p>Loading model details from the backend…</p></div></header><div class="card"><div class="skeleton" style="width:40%;margin-bottom:14px"></div><div class="skeleton" style="width:75%;margin-bottom:10px"></div><div class="skeleton" style="width:55%"></div></div>';
+      root.innerHTML = '<header class="page-heading"><div><p class="small muted">ML PREDICTIONS · ' + (FDT.demo ? "Demo" : "Live backend") + '</p><h1>' + esc(title) + '</h1><p>Loading model details from the backend…</p></div></header><div class="card"><div class="skeleton" style="width:40%;margin-bottom:14px"></div><div class="skeleton" style="width:75%;margin-bottom:10px"></div><div class="skeleton" style="width:55%"></div></div>';
     },
     modelLine: function (model) {
       return '<p class="ml-model-line small muted">Model: <strong>' + esc(model.algorithm) + "</strong> · trained " + esc(String(model.trained_at || "").replace("T", " ").replace("+00:00", " UTC")) + "</p>";

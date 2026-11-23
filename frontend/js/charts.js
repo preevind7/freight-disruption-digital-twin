@@ -116,7 +116,7 @@
         });
       });
       axisText(svg, pad.left, height - 8, "0 min", "start");
-      axisText(svg, width - pad.right, height - 8, (options.maxMinutes || bins * 10) + " min", "end");
+      axisText(svg, width - pad.right, height - 8, Math.round(options.maxMinutes || bins * 10) + " min", "end");
       return svg;
     },
     contributions: function (items) {

@@ -23,7 +23,7 @@
   function signInForm(prefill) {
     return [
       '<form class="login-card" id="login-form" novalidate>',
-      '  <h2>Sign in</h2><p>Enter your username and password.</p>',
+      '  <h2>Sign in</h2><p>Enter your username and password.</p>' + (FDT.demo ? '<p class="small" style="background:#FFF6E0;border:1px solid #F0D28C;border-radius:8px;padding:8px 10px"><strong>Demo:</strong> type any username and password, e.g. <code>dispatcher</code> / <code>demo</code>. Use <code>operator</code>, <code>planner</code> or <code>researcher</code> to see the other roles. Nothing is sent anywhere.</p>' : ''),
       prefill && prefill.message ? '  <div class="ml-success" role="status">' + FDT.escapeHtml(prefill.message) + '</div>' : "",
       '  <div class="field"><label for="login-username">Username</label><input id="login-username" name="username" autocomplete="username" required autocapitalize="none" spellcheck="false" value="' + FDT.escapeHtml((prefill && prefill.username) || "") + '"></div>',
       '  <div class="field" style="margin-top:12px"><label for="login-password">Password</label><input id="login-password" name="password" type="password" autocomplete="current-password" required></div>',

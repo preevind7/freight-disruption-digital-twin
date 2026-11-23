@@ -38,7 +38,7 @@
 
     root.innerHTML =
       '<header class="page-heading"><div><p class="small muted">PREDICT MODULE · <span class="simulated">Synthetic history</span></p><h1>Risk Hotspots</h1><p>Identify segments with recurring disruptions and review their current hourly risk · ' + FDT.escapeHtml(corridor.name) + '</p></div><div class="page-actions"><a class="button" href="#/risk-map">Open risk map</a></div></header>' +
-      '<div class="hotspot-disclaimer" role="note"><strong>Historical view is simulated</strong><span>Disruption counts and delay averages are illustrative 90-day prototype data. The live risk curve is a separate synthetic hourly forecast.</span></div>' +
+      '<div class="hotspot-disclaimer" role="note"><strong>Historical view is simulated</strong><span>Disruption counts and delay averages are illustrative 90-day prototype data. The hourly risk curve and “Risk now” come from the ML models.</span></div>' +
       '<section class="kpi-grid" aria-label="Hotspot summary"><article class="kpi-card"><span class="kpi-card__label">Segments analyzed</span><strong class="kpi-card__value number">' + rows.length + '</strong><span class="kpi-card__note">On this corridor</span></article><article class="kpi-card kpi-card--risk"><span class="kpi-card__label">Highest current risk</span><strong class="kpi-card__value number">' + (highestRisk ? highestRisk.risk.toFixed(2) : "—") + '</strong><span class="kpi-card__note">' + (highestRisk ? FDT.escapeHtml(highestRisk.id + " · " + highestRisk.name) : "No segment data") + '</span></article><article class="kpi-card"><span class="kpi-card__label">Illustrative disruptions</span><strong class="kpi-card__value number">' + totalDisruptions + '</strong><span class="kpi-card__note">Combined across segments · 90 days</span></article><article class="kpi-card"><span class="kpi-card__label">Average delay when disrupted</span><strong class="kpi-card__value number">' + Math.round(averageDelay) + ' min</strong><span class="kpi-card__note">Unweighted mean across segments</span></article></section>' +
       '<div class="hotspot-visual-grid"><section class="card hotspot-history-card"><div class="card__header"><div><h2>Most frequent disruption locations</h2><p>Top segments by illustrative disruption count in the last 90 days</p></div></div><div id="hotspot-history-chart" class="hotspot-chart" role="list" aria-label="Top segments by illustrative disruption count"></div></section><section class="card hotspot-forecast-card"><div class="card__header"><div><h2>Hourly risk forecast</h2><p id="hotspot-selected-label"></p></div><label class="field hotspot-segment-picker"><span>Segment</span><select id="hotspot-segment"></select></label></div><div id="hotspot-risk-chart" class="hotspot-chart"></div><div class="hotspot-current-facts" id="hotspot-current-facts"></div><a class="button button--subtle" id="hotspot-open-segment">Open segment details</a></section></div>' +
       '<section class="card hotspot-table-card"><div class="card__header"><div><h2>Segment history</h2><p>Search, filter by main cause, or sort historical measures.</p></div></div><div id="hotspot-table"></div></section>';
@@ -78,7 +78,7 @@
     function renderHourly() {
       const segment = FDT.data.segmentById[picker.value];
       if (!segment || segment.corridorId !== corridor.id) throw new Error("Selected hotspot segment is not in the active corridor.");
-      FDT.$("#hotspot-selected-label", root).textContent = segment.id + " · " + segment.name + " · synthetic hourly score";
+      FDT.$("#hotspot-selected-label", root).textContent = segment.id + " · " + segment.name + " · ML hourly risk";
       const chart = FDT.charts.line({
         values: segment.risk,
         min: 0,
@@ -161,7 +161,7 @@
     FDT.$("#hotspot-table", root).append(table.element);
     picker.addEventListener("change", renderHourly);
     renderHourly();
-    const note = FDT.ui.designNote(1, "Historical disruption counts and hourly forecast risk use separate synthetic inputs.");
+    const note = FDT.ui.designNote(1, "Historical disruption counts are illustrative; hourly risk comes from the ML models.");
     if (note) root.append(note);
   }
 

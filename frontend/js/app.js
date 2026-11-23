@@ -111,7 +111,7 @@
     const user = FDT.state.user;
     const initials = user.name.split(/\s+/).map(function (part) { return part.charAt(0); }).join("").slice(0, 2).toUpperCase();
     root.innerHTML = [
-      '<div class="prototype-banner"><span class="prototype-banner__message"><strong>PROTOTYPE</strong> &nbsp; Corridor risk, alerts and predictions come from the 3 ML models on the backend · vehicles, trips and delay minutes are demo data · items marked [SIMULATED] are estimates</span>',
+      '<div class="prototype-banner"><span class="prototype-banner__message">' + (FDT.demo ? '<strong>DEMO</strong> &nbsp; Runs in your browser with no backend · corridor risk, alerts and model results are a saved sample day (19 Aug 2025) from the 3 ML models · live predictions and the real AI need the full app · vehicles and trips are demo data' : '<strong>PROTOTYPE</strong> &nbsp; Corridor risk, alerts and predictions come from the 3 ML models on the backend · vehicles, trips and delay minutes are demo data · items marked [SIMULATED] are estimates') + '</span>',
       '<div class="prototype-banner__actions"><button type="button" data-action="toggle-notes" class="design-note-toggle" aria-pressed="' + String(FDT.state.preferences.designNotes) + '">Design notes: ' + (FDT.state.preferences.designNotes ? "on" : "off") + '</button><button type="button" data-navigate="/guide">Prototype guide</button></div></div>',
       '<div class="app-shell" id="app-shell"><button class="sidebar-scrim" type="button" aria-label="Close navigation" data-action="close-drawer"></button>',
       '<aside class="sidebar" id="sidebar" aria-label="Main navigation"><a class="brand" href="#/dashboard"><span class="brand__mark" aria-hidden="true">AI</span><span><span class="brand__name">Freight Disruption<br>Digital Twin</span><span class="brand__meta">2 pilot corridors</span></span></a>',
@@ -132,6 +132,7 @@
       const today = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Kolkata" }).format(new Date());
       dateField.max = new Date(Date.parse(today) + 14 * 864e5).toISOString().slice(0, 10);
       dateField.value = FDT.state.forecastDate || today;
+      if (FDT.demo) { dateField.min = dateField.max = dateField.value = FDT.demo.date; dateField.disabled = true; dateField.parentNode.title = "Demo: saved sample day " + FDT.demo.date; }
     }
     if (FDT.mlCorridor) FDT.mlCorridor.updateBadge();
   };

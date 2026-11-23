@@ -17,7 +17,7 @@
     const perSegment = /open_meteo/.test(meta.dataset || "");
     const report = meta.report || {};
     root.innerHTML =
-      '<header class="page-heading"><div><p class="small muted">ML PREDICTIONS · MODEL 1 · <span class="simulated">Live backend</span></p><h1>' + TITLE + '</h1><p>Forecast tomorrow\'s rainfall category and the chance of heavy rain (≥ 64.5 mm/day) — the flood trigger — from the last 7 days of rain.</p></div><div class="page-actions"><a class="button" href="#/model">Model & Validation</a></div></header>' +
+      '<header class="page-heading"><div><p class="small muted">ML PREDICTIONS · MODEL 1 · <span class="simulated">' + (FDT.demo ? "Saved sample · demo" : "Live backend") + '</span></p><h1>' + TITLE + '</h1><p>Forecast tomorrow\'s rainfall category and the chance of heavy rain (≥ 64.5 mm/day) — the flood trigger — from the last 7 days of rain.</p></div><div class="page-actions"><a class="button" href="#/model">Model & Validation</a></div></header>' +
       '<div class="ml-layout"><form id="rain-form" class="card ml-form" novalidate>' +
       '<div class="card__header"><div><h2>Inputs</h2><p>' + (perSegment ? "Real daily rainfall at each corridor segment (Open-Meteo / ERA5), as in the training data (" : "City-level daily rainfall, as in the training data (") + ml.esc(meta.dataset) + ').</p></div></div>' +
       '<div class="field-row"><div class="field"><label for="rain-city">' + (perSegment ? "Corridor segment" : "City") + '</label><select id="rain-city" required>' + ml.options(cities, city) + '</select></div>' +

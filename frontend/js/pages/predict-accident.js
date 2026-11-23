@@ -15,7 +15,7 @@
     const now = new Date();
     const dayName = now.toLocaleDateString("en-US", { weekday: "long" });
     root.innerHTML =
-      '<header class="page-heading"><div><p class="small muted">ML PREDICTIONS · MODEL 2 · <span class="simulated">Live backend</span></p><h1>' + TITLE + '</h1><p>Score how risky the road, weather, traffic and time conditions are, on a 0–1 scale learned from 20,000 Indian road-accident records.</p></div><div class="page-actions"><a class="button" href="#/model">Model & Validation</a></div></header>' +
+      '<header class="page-heading"><div><p class="small muted">ML PREDICTIONS · MODEL 2 · <span class="simulated">' + (FDT.demo ? "Saved sample · demo" : "Live backend") + '</span></p><h1>' + TITLE + '</h1><p>Score how risky the road, weather, traffic and time conditions are, on a 0–1 scale learned from 20,000 Indian road-accident records.</p></div><div class="page-actions"><a class="button" href="#/model">Model & Validation</a></div></header>' +
       '<div class="ml-layout"><form id="acc-form" class="card ml-form" novalidate>' +
       '<div class="card__header"><div><h2>Trip conditions</h2><p>Values available in the training data (' + ml.esc(meta.dataset) + ').</p></div></div>' +
       '<div class="field-row"><div class="field"><label for="acc-city">City</label><select id="acc-city">' + ml.options(o.city, "Mumbai") + '</select></div>' +
