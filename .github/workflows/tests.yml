@@ -1,0 +1,53 @@
+# Automatic tests (CI) for the Freight Disruption Digital Twin.
+# Runs on every push to main, on every pull request, and on demand (Actions tab -> Run workflow).
+# No API keys are needed: the tests never call Gemini, Groq, TomTom or Open-Meteo.
+name: Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Train models and run tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - name: Get the code
+        uses: actions/checkout@v6
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: backend/requirements.txt
+
+      - name: Install Python packages
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Check the frontend JavaScript for syntax errors
+        working-directory: frontend
+        run: |
+          find . -name "*.js" -print0 | xargs -0 -n1 node --check
+          echo "All frontend JavaScript files parse correctly."
+
+      - name: Train the 3 ML models from the datasets in the repo
+        run: python -m training.train_all
+
+      - name: Run the test suite
+        run: python -m pytest -q
