@@ -48,6 +48,7 @@
 
   FDT.simulator = {
     simulate: function (inputs) {
+      const startedAt = performance.now();
       const source = Object.assign({}, inputs || {});
       const corridor = FDT.data.getCorridor(source.corridorId || FDT.state.corridorId);
       const runs = [100, 500, 1000, 5000].includes(Number(source.runs)) ? Number(source.runs) : 1000;
@@ -137,7 +138,7 @@
         delaySaved: delaySaved,
         histogramBins: makeHistogram(routes, 24),
         createdAt: new Date().toISOString(),
-        durationSeconds: 1.7
+        durationSeconds: (performance.now() - startedAt) / 1000
       };
       return result;
     }
