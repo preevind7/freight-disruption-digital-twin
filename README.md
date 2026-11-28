@@ -1,66 +1,69 @@
 # GenAI Digital Twin for Freight Disruption Prediction & Mitigation
 
 Forecasting highway disruption in India for every vehicle on the road: trucks, buses, cars/taxis and vans.
-
-This repository contains a clickable, browser-only prototype. It is designed to work from a local `file://` URL and on GitHub Pages without a build step.
-
-## Screenshots
-
-_Add prototype screenshots here._
-
-## Live demo
-
-Live demo: `https://<user>.github.io/<repo>/`
-
-## Run locally
-
-Open `index.html` directly in a modern browser. No server, dependency installation, password, or API key is needed.
-
-## Scenario simulation
-
-The Scenario Simulator runs deterministic Monte Carlo comparisons in the browser, with 100–5,000 runs, optional alternate-route comparisons, and current-forecast, heavy-rain, closure, and congestion scenarios. Results include route delay percentiles and an on-time estimate based on each route's travel-time buffer. Simulations and saved scenarios are stored in this browser's local storage.
-
-## Assistant demo
-
-The GenAI Assistant screen is a local, template-based demonstration grounded in the prototype's synthetic segment, trip, route, departure, and model facts. It does not connect to an AI service or provide live operational guidance; each answer links to its source screen.
-
-## Fleet and trip records
-
-Vehicles & Trips filters the selected corridor's synthetic fleet by vehicle type and trip status, with searchable, sortable trip records. Trip details show the assigned vehicle, current segment forecast, seeded timeline, and any reroute action stored in this browser.
-
-## Departure planning
-
-The Departure Planner compares 24 departure hours for a selected corridor segment and vehicle using the local seeded simulator. Its recommended window is the lowest estimated median delay in that comparison; results are synthetic planning estimates, not live traffic guidance. Hourly results link to the simulator with the selected departure time prefilled.
-
-## Risk hotspots
-
-Risk Hotspots summarizes illustrative 90-day disruption counts and average delays by corridor segment, alongside the separate synthetic hourly forecast. Select a segment to inspect its risk curve; search or filter the history table by cause and open segment details for more context.
-
-## Deploy to GitHub Pages
-
-1. Push the repository to GitHub.
-2. In repository settings, open **Pages** and select the branch and folder containing `index.html`.
-3. Open the published URL. All app assets use relative paths, so the prototype works below a repository sub-path.
-
-## Folder map
-
-```text
-index.html
-css/       Design tokens, base styles, layout, components, and page styles
-js/        Browser-only app and router
-           data.js holds synthetic data; charts.js and map.js draw SVG visuals;
-           simulator.js runs deterministic Monte Carlo scenarios; ui.js provides
-           reusable dialogs, tables, tabs, and notifications; pages/ contains
-           one module per screen
-```
-
-Prototype with synthetic data – no backend, no API keys.
-
+Two pilot corridors (Mumbai → Bengaluru, Chennai → Bengaluru), 35 road segments.
 
 ## Live demo (GitHub Pages)
 
 **https://preevind7.github.io/freight-disruption-digital-twin/**
 
-On GitHub Pages this frontend switches to **demo mode** on its own. It runs in the browser with no backend, using a saved sample day (19 Aug 2025) from the 3 ML models. That sample is stored in `js/demo-data.js` and is answered by `js/demo-backend.js`. You can sign in with any username and password. Live predictions and the real AI assistant need the full app.
+On GitHub Pages the frontend runs in **demo mode**: no backend is needed, and it uses a saved sample day
+(19 Aug 2025) from the 3 ML models (`frontend/js/demo-data.js`, answered by `frontend/js/demo-backend.js`).
+You can sign in with any username and password. In demo mode the assistant gives built-in answers;
+live predictions and the real AI assistant need the full app.
 
-Opened from the backend (`http://127.0.0.1:8000` or the public tunnel link), the same code is the full live app, and demo mode stays off. To try demo mode locally, add `?demo` to the address.
+## What is in this repository
+
+| Part | What it does |
+|---|---|
+| `backend/` | Python + FastAPI server: JWT login, REST API (Swagger docs at `/docs`), 3 ML models, live weather and traffic, GenAI assistant |
+| `backend/training/` | Trains the 3 models: rainfall / heavy-rain risk, accident risk, festival traffic congestion |
+| `backend/reports/` | Test results of each model on a held-out later period, against simple baselines |
+| `frontend/` | Plain HTML, CSS and JavaScript web app, one screen per feature; served by the backend or by GitHub Pages |
+
+## Data
+
+- **Rainfall:** real daily rainfall for each of the 35 segments from Open-Meteo (ERA5 reanalysis), 2020 onwards, plus archived day-ahead forecasts from 2024.
+- **Accident and traffic:** `indian_roads_dataset.csv` (2022 – Apr 2025) and `significant_dates.csv` for festivals. These look synthetic; the accident risk score is rule-based.
+- **Live (full app only):** Open-Meteo forecasts and TomTom Traffic Flow (free key).
+- **Vehicles, trips and delay minutes** are demo data. Delay accuracy is not measured yet, because no real trip records are available.
+
+## Model results (test data the models never saw)
+
+| Model | Test period | Measure | Simple baseline | Forecast alone | Our model |
+|---|---|---|---|---|---|
+| Rainfall | 1 Jan – 12 Nov 2026 | Heavy-rain PR-AUC | 0.150 | – | 0.526 |
+| Rainfall | 1 Jan – 12 Nov 2026 | Log loss | 0.505 | – | 0.391 |
+| Rainfall | 1 Jan – 12 Nov 2026 | Accuracy | 78.0% | 83.3% | 82.2% |
+| Heavy-rain alerts | 1 Jan – 12 Nov 2026 | Precision · recall | 39% · 39% | 59% · 57% | 32% · 52% |
+| Traffic | Jul 2024 – Apr 2025 | Accuracy | 48.6% | – | 49.7% |
+| Accident | Jul 2024 – Apr 2025 | R² | 0.00 | – | 1.00 (learns the dataset's formula) |
+
+Baselines: rain frequency by segment and month; heavy rain yesterday (alerts); a peak-hour rule (traffic).
+The test period had only 23 heavy-rain segment-days. Full details are in `backend/reports/`.
+
+## Scenario simulator
+
+Monte Carlo comparison in the browser (100 – 5,000 runs; 1,000 runs take well under a second), with optional
+alternate-route comparison and current-forecast, heavy-rain, closure and congestion scenarios. Results show
+P50 and P90 delay and the chance of arriving on time.
+
+## GenAI assistant (full app)
+
+Answers questions in plain language from the ML forecast. Provider: Gemini, with Groq as an automatic backup
+(set in `backend/.env`). Every number in an answer is compared with the model data, and unsupported numbers
+are flagged.
+
+## Run the full app
+
+```bash
+cd backend
+pip install -r requirements.txt
+python -m training.train_all       # trains the 3 models
+python -m pytest -q                # 118 tests
+python -m app.manage_users secret  # put the result in .env as JWT_SECRET
+uvicorn app.main:app --port 8000   # open http://127.0.0.1:8000
+```
+
+Copy `backend/.env.example` to `backend/.env` and add your keys (Gemini / Groq, TomTom) to turn on the real AI and live traffic.
+GitHub Actions retrains the models and runs all tests on every push.
